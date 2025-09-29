@@ -2,6 +2,20 @@
 
 Common tests that can be run against any Rust project to validate security, standards, and best practices.
 
+__Building and Testing__
+
+```bash
+# Build
+./scripts/build.sh
+
+# Run tests
+./scripts/test.sh
+
+# Check best practices
+./scripts/best-practices.sh
+
+```
+
 ## Implementation
 
 This repository provides a comprehensive test suite that validates Rust projects against security standards, coding conventions, and best practices. The tests are organized into three main categories with specific validation rules.
