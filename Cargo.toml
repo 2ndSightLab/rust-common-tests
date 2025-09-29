@@ -1,0 +1,28 @@
+[package]
+name = "rust-common-tests"
+version = "0.1.0"
+edition = "2024"
+
+[lints.rust]
+non_snake_case = "allow"
+
+[dependencies]
+walkdir = "2.0"
+regex = "1.0"
+toml = "0.8"
+serde = { version = "1.0", features = ["derive"] }
+libc = "0.2"
+thiserror = "1.0"
+log = "0.4"
+
+[[test]]
+name = "integration"
+path = "tests/integration.rs"
+
+[[test]]
+name = "security_checks"
+path = "tests/security_checks.rs"
+
+[[test]]
+name = "unit_tests"
+path = "tests/unit_tests.rs"
