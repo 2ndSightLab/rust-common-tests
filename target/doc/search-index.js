@@ -1,4 +1,0 @@
-var searchIndex = new Map(JSON.parse('[["rust_common_tests",{"t":"CCCCCHHCC","n":["tests","integration","security_checks","unit_tests","common","check_test_prerequisites","has_service_config","common",""],"q":[[0,"rust_common_tests"],[1,"rust_common_tests::tests"],[4,"rust_common_tests::tests::integration"],[5,"rust_common_tests::tests::integration::common"],[7,"rust_common_tests::tests::security_checks"],[8,"rust_common_tests::tests::unit_tests"],[9,"alloc::string"],[10,"core::result"]],"i":"`````````","f":"`````{{}{{f{bd}}}}{{}h}``","D":"d","p":[[1,"unit"],[5,"String",9],[6,"Result",10,null,1],[1,"bool"]],"r":[],"b":[],"c":"OjAAAAAAAAA=","e":"OzAAAAEAAAcAAgAAAAUACAABAA==","P":[]}]]'));
-if (typeof exports !== 'undefined') exports.searchIndex = searchIndex;
-else if (window.initSearch) window.initSearch(searchIndex);
-//{"start":39,"fragment_lengths":[652]}

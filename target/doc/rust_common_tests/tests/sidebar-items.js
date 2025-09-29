@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"mod":["integration","security_checks","unit_tests"]};
