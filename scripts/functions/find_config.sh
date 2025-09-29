@@ -28,10 +28,23 @@ get_service_name() {
 # Function to find the config file location
 find_config_file() {
     local CONFIG_NAME="$1"
+    local ADDITIONAL_PATH1="$2"
+    local ADDITIONAL_PATH2="$3"
     
     # Default to service.toml if no name provided
     if [[ -z "$CONFIG_NAME" ]]; then
         CONFIG_NAME="service.toml"
+    fi
+    
+    # Check additional paths first if provided
+    if [[ -n "$ADDITIONAL_PATH1" && -f "$ADDITIONAL_PATH1/$CONFIG_NAME" ]]; then
+        echo "$ADDITIONAL_PATH1/$CONFIG_NAME"
+        return 0
+    fi
+    
+    if [[ -n "$ADDITIONAL_PATH2" && -f "$ADDITIONAL_PATH2/$CONFIG_NAME" ]]; then
+        echo "$ADDITIONAL_PATH2/$CONFIG_NAME"
+        return 0
     fi
     
     # Use local config directory
@@ -42,6 +55,15 @@ find_config_file() {
     if [[ -f "$LOCAL_CONFIG" ]]; then
         echo "$LOCAL_CONFIG"
         return 0
+    fi
+    
+    # If service.toml not found, try lib.toml as fallback
+    if [[ "$CONFIG_NAME" == "service.toml" ]]; then
+        local LIB_CONFIG="$PROJECT_ROOT/config/lib.toml"
+        if [[ -f "$LIB_CONFIG" ]]; then
+            echo "$LIB_CONFIG"
+            return 0
+        fi
     fi
     
     echo "Error: Config file $CONFIG_NAME not found in local config directory" >&2

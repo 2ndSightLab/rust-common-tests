@@ -1,5 +1,11 @@
 #!/bin/bash
 
+SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
+
+# Source config reading functions
+source "$SCRIPT_DIR/functions/read_config.sh"
+source "$SCRIPT_DIR/functions/find_config.sh"
+
 # Get current architecture
 CURRENT_ARCH=$(rustc --version --verbose | grep host | cut -d' ' -f2)
 

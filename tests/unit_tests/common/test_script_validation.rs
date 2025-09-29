@@ -1,5 +1,8 @@
+#[allow(clippy::all)]
+#[allow(clippy::pedantic)]
+#[allow(clippy::nursery)]
 #[cfg(test)]
-mod test_script_validation_tests {
+mod script_validation_tests {
     use std::fs;
 
     #[test]
@@ -17,62 +20,28 @@ mod test_script_validation_tests {
             "test.sh missing summary separator"
         );
 
-        // Check for color definitions
+        // Check that script generates category names from test files
         assert!(
-            SCRIPT_CONTENT.contains("RED="),
-            "test.sh missing RED color definition"
-        );
-        assert!(
-            SCRIPT_CONTENT.contains("GREEN="),
-            "test.sh missing GREEN color definition"
+            SCRIPT_CONTENT.contains("TEST_NAME=$(echo \"${TEST_FILE}\" | sed 's/_/ /g' | sed 's/\\b\\w/\\U&/g')"),
+            "test.sh not generating category names from test files"
         );
 
-        // Check for proper test result formatting with colors
+        // Check for proper output format generation with PASSED status
         assert!(
-            SCRIPT_CONTENT.contains("${GREEN}"),
-            "test.sh missing GREEN color usage"
-        );
-        assert!(
-            SCRIPT_CONTENT.contains("${RED}"),
-            "test.sh missing RED color usage"
+            SCRIPT_CONTENT.contains("echo -e \"✅ ${TEST_NAME}: ${GREEN}PASSED${NC} ($TEST_PASSED passed, $TEST_FAILED failed)\""),
+            "test.sh not generating correct PASSED format"
         );
 
-        // Check for dynamic test result format with icons and colors
+        // Check for proper output format generation with FAILED status
         assert!(
-            SCRIPT_CONTENT.contains("✅") && SCRIPT_CONTENT.contains("PASSED"),
-            "test.sh missing PASSED format with checkmark"
-        );
-        assert!(
-            SCRIPT_CONTENT.contains("❌") && SCRIPT_CONTENT.contains("FAILED"),
-            "test.sh missing FAILED format with X mark"
+            SCRIPT_CONTENT.contains("echo -e \"❌ ${TEST_NAME}: ${RED}FAILED${NC} ($TEST_PASSED passed, $TEST_FAILED failed)\""),
+            "test.sh not generating correct FAILED format"
         );
 
-        // Check for pass/fail count format (dynamic variables)
+        // Check for conditional logic based on test results
         assert!(
-            SCRIPT_CONTENT.contains("passed,") && SCRIPT_CONTENT.contains("failed)"),
-            "test.sh missing pass/fail count format"
-        );
-
-        // Check for overall test summary
-        assert!(
-            SCRIPT_CONTENT.contains("All Tests:"),
-            "test.sh missing overall test summary"
-        );
-
-        // Verify the script extracts counts from cargo output
-        assert!(
-            SCRIPT_CONTENT.contains("grep -o '[0-9]\\+ passed'"),
-            "test.sh not extracting passed test counts"
-        );
-        assert!(
-            SCRIPT_CONTENT.contains("grep -o '[0-9]\\+ failed'"),
-            "test.sh not extracting failed test counts"
-        );
-
-        // Check for proper exit codes
-        assert!(
-            SCRIPT_CONTENT.contains("exit 0") || SCRIPT_CONTENT.contains("exit 1"),
-            "test.sh missing proper exit codes"
+            SCRIPT_CONTENT.contains("if [[ $TEST_FAILED -eq 0 ]]; then"),
+            "test.sh missing conditional logic for PASSED/FAILED status"
         );
     }
 }

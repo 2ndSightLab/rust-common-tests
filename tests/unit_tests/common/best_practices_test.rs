@@ -1,5 +1,5 @@
 #[cfg(test)]
-mod tests {
+mod best_practices_tests {
     use std::process::Command;
 
     #[test]

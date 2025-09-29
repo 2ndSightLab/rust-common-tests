@@ -204,6 +204,29 @@ echo "1" | ./scripts/test.sh  # Force debug build
 
 ### Adding New Tests
 
+When creating new test files in `rust-common-tests/tests/unit_tests/common/`, always follow this exact pattern:
+
+```rust
+#[cfg(test)]
+mod tests {
+    use std::fs;
+
+    #[test]
+    fn test_your_functionality() {
+        let SCRIPT_CONTENT = fs::read_to_string("./scripts/test.sh")
+            .expect("test.sh file not found");
+        
+        // Your test logic here using SCREAMING_SNAKE_CASE variables
+    }
+}
+```
+
+**Required conventions:**
+- Always use `mod tests` (not `mod test_*_tests`)
+- Use SCREAMING_SNAKE_CASE for all variables
+- Follow the exact pattern of existing test files
+- Add module reference to `tests/unit_tests.rs`
+
 1. Create test file in appropriate category directory
 2. Add module reference to the category's main test file
 3. Follow SCREAMING_SNAKE_CASE naming convention
