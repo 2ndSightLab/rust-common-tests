@@ -24,14 +24,16 @@ mod common_tests_display_tests {
 
         // Check that script runs specific test binaries for common tests
         assert!(
-            SCRIPT_CONTENT.contains("cargo test --test integration --test security_checks --test unit_tests 2>&1"),
+            SCRIPT_CONTENT.contains(
+                "cargo test --test integration --test security_checks --test unit 2>&1"
+            ),
             "test.sh not running correct test binaries for common tests"
         );
 
         // Check that script colorizes common test output
         assert!(
-            SCRIPT_CONTENT.contains("echo -e \"${line% ok} ${GREEN}ok${NC}\"") &&
-            SCRIPT_CONTENT.contains("echo -e \"${line% FAILED} ${RED}FAILED${NC}\""),
+            SCRIPT_CONTENT.contains("echo -e \"${line% ok} ${GREEN}ok${NC}\"")
+                && SCRIPT_CONTENT.contains("echo -e \"${line% FAILED} ${RED}FAILED${NC}\""),
             "test.sh not colorizing common test output"
         );
 
@@ -42,14 +44,15 @@ mod common_tests_display_tests {
         );
 
         // Check that common tests section comes before local tests section
-        let COMMON_TESTS_POS = SCRIPT_CONTENT.find("Running common tests from rust-common-tests...");
+        let COMMON_TESTS_POS =
+            SCRIPT_CONTENT.find("Running common tests from rust-common-tests...");
         let LOCAL_TESTS_POS = SCRIPT_CONTENT.find("Running local tests...");
-        
+
         assert!(
             COMMON_TESTS_POS.is_some() && LOCAL_TESTS_POS.is_some(),
             "test.sh missing common or local tests sections"
         );
-        
+
         assert!(
             COMMON_TESTS_POS < LOCAL_TESTS_POS,
             "test.sh common tests section should come before local tests section"

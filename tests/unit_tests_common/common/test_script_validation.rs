@@ -22,7 +22,9 @@ mod script_validation_tests {
 
         // Check that script generates category names from test files
         assert!(
-            SCRIPT_CONTENT.contains("TEST_NAME=$(echo \"${TEST_FILE}\" | sed 's/_/ /g' | sed 's/\\b\\w/\\U&/g')"),
+            SCRIPT_CONTENT.contains(
+                "TEST_NAME=$(echo \"${TEST_FILE}\" | sed 's/_/ /g' | sed 's/\\b\\w/\\U&/g')"
+            ),
             "test.sh not generating category names from test files"
         );
 

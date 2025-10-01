@@ -3,8 +3,16 @@ name = "rust-common-tests"
 version = "0.1.0"
 edition = "2024"
 
+[package.metadata]
+install_dir = "#no installation directory required for libraries"
+rust_service_path = "../rust-service"
+
 [lints.rust]
 non_snake_case = "allow"
+
+[lib]
+name = "rust_common_tests"
+path = "src/lib.rs"
 
 [dependencies]
 walkdir = "2.0"
@@ -16,13 +24,13 @@ thiserror = "1.0"
 log = "0.4"
 
 [[test]]
-name = "integration"
-path = "tests/integration.rs"
+name = "integration_common"
+path = "tests/integration_common.rs"
 
 [[test]]
-name = "security_checks"
-path = "tests/security_checks.rs"
+name = "security_checks_common"
+path = "tests/security_checks_common.rs"
 
 [[test]]
-name = "unit_tests"
-path = "tests/unit_tests.rs"
+name = "unit_tests_common"
+path = "tests/unit_tests_common.rs"

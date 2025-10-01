@@ -24,20 +24,21 @@ mod local_tests_display_tests {
 
         // Check that script colorizes local test output
         assert!(
-            SCRIPT_CONTENT.contains("echo -e \"${line% ok} ${GREEN}ok${NC}\"") &&
-            SCRIPT_CONTENT.contains("echo -e \"${line% FAILED} ${RED}FAILED${NC}\""),
+            SCRIPT_CONTENT.contains("echo -e \"${line% ok} ${GREEN}ok${NC}\"")
+                && SCRIPT_CONTENT.contains("echo -e \"${line% FAILED} ${RED}FAILED${NC}\""),
             "test.sh not colorizing local test output"
         );
 
         // Check that local tests section comes after common tests section
-        let COMMON_TESTS_POS = SCRIPT_CONTENT.find("Running common tests from rust-common-tests...");
+        let COMMON_TESTS_POS =
+            SCRIPT_CONTENT.find("Running common tests from rust-common-tests...");
         let LOCAL_TESTS_POS = SCRIPT_CONTENT.find("Running local tests...");
-        
+
         assert!(
             COMMON_TESTS_POS.is_some() && LOCAL_TESTS_POS.is_some(),
             "test.sh missing common or local tests sections"
         );
-        
+
         assert!(
             LOCAL_TESTS_POS > COMMON_TESTS_POS,
             "test.sh local tests section should come after common tests section"
