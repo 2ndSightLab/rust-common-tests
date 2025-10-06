@@ -1,11 +1,11 @@
 ////////////////////////////////////////////////////////////////
 //
-//  Name: Common tests library
+//  Name: Dependency audit security test
 //  GitHub repository: https://github.com/2ndSightLab/rust-common-tests.git
-//  File: src/lib.rs
+//  File: tests/security_checks_rust_common_tests/common/test_dependency_audit.rs
 //  Copyright: © 2025 2nd Sight Lab, LLC
 //
-//  Provides common security and standards tests for Rust projects
+//  Runs cargo audit to scan for security vulnerabilities in dependencies
 //
 //  This software, which includes components generated with the assistance of artificial
 //  intelligence, is free for personal, educational, and non-profit use, provided that
@@ -19,9 +19,23 @@
 //
 ////////////////////////////////////////////////////////////////
 
-// Common tests library for Rust projects
-// This library provides common security and standards tests
-// that can be run against any Rust project
+#[cfg(test)]
+mod test_dependency_audit_tests {
+    use std::process::Command;
 
-// This is a library crate that provides test utilities
-// The actual tests are in the tests/ directory and are run via cargo test
+    #[test]
+    fn test_comprehensive_security_audit() {
+        let OUTPUT = Command::new("./scripts/security-checks.sh")
+            .output()
+            .expect("Failed to execute security-checks.sh");
+
+        let STDERR = String::from_utf8_lossy(&OUTPUT.stderr);
+
+        assert!(
+            OUTPUT.status.success(),
+            "security-checks.sh failed with exit code: {}. Output: {}",
+            OUTPUT.status.code().unwrap_or(-1),
+            STDERR
+        );
+    }
+}

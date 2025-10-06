@@ -1,11 +1,11 @@
 ////////////////////////////////////////////////////////////////
 //
-//  Name: Common tests library
+//  Name: Non-snake case override validation test
 //  GitHub repository: https://github.com/2ndSightLab/rust-common-tests.git
-//  File: src/lib.rs
+//  File: tests/unit_test_rust_common_tests/common/test_non_snake_case_override_present.rs
 //  Copyright: © 2025 2nd Sight Lab, LLC
 //
-//  Provides common security and standards tests for Rust projects
+//  Validates that Cargo.toml has proper lint overrides
 //
 //  This software, which includes components generated with the assistance of artificial
 //  intelligence, is free for personal, educational, and non-profit use, provided that
@@ -19,9 +19,24 @@
 //
 ////////////////////////////////////////////////////////////////
 
-// Common tests library for Rust projects
-// This library provides common security and standards tests
-// that can be run against any Rust project
+#[cfg(test)]
+mod tests {
+    use std::fs;
 
-// This is a library crate that provides test utilities
-// The actual tests are in the tests/ directory and are run via cargo test
+    #[test]
+    fn test_non_snake_case_override_present() {
+        let CARGO_CONTENT = fs::read_to_string("Cargo.toml").expect("Cargo.toml not found");
+
+        // Check that non_snake_case is explicitly allowed
+        assert!(
+            CARGO_CONTENT.contains("non_snake_case = \"allow\""),
+            "Cargo.toml must contain 'non_snake_case = \"allow\"' to override Rust naming conventions"
+        );
+
+        // Verify it's in the lints section
+        assert!(
+            CARGO_CONTENT.contains("[lints.rust]"),
+            "Cargo.toml must have [lints.rust] section"
+        );
+    }
+}

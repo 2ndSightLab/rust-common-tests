@@ -23,10 +23,11 @@
 set -e
 
 # Set standard directory variables and source all functions
-SCRIPTS_DIR="$(dirname "$(readlink -f "$0")")"
-for FUNC in "$SCRIPTS_DIR/functions"/*.sh; do source "$FUNC"; done
+if [ -z "$SCRIPT_DIR" ]; then
+    SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
+fi
+for FUNC in "$SCRIPT_DIR/functions"/*.sh; do source "$FUNC"; done
 PROJECT_DIR=$(get_project_dir)
-SCRIPT_DIR_RELATIVE=$(dirname "$0")
 
 # Define configuration constants
 DEBUG_CHOICE=1
@@ -68,7 +69,7 @@ CURRENT_ARCH=$(rustc --version --verbose | grep host | cut -d' ' -f2)
 BINARY_PATH="target/$CURRENT_ARCH/$BUILD_TYPE/$PROJECT_NAME"
 if [[ ! -f "$BINARY_PATH" ]]; then
     echo "Binary not found at $BINARY_PATH, building..."
-    echo "$choice" | "$SCRIPTS_DIR"/build.sh
+    echo "$choice" | "$SCRIPT_DIR"/build.sh
 fi
 
 # Set service user based on debug mode
@@ -79,7 +80,7 @@ else
 fi
 
 # First run the install.sh script
-echo "$CHOICE" | "$SCRIPTS_DIR_RELATIVE"/install.sh
+echo "$CHOICE" | "$SCRIPT_DIR"/install.sh
 
 # Read directories from config file
 INSTALL_DIR=$(get_install_directory "$BUILD_TYPE")

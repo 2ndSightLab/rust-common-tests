@@ -1,11 +1,11 @@
 ////////////////////////////////////////////////////////////////
 //
-//  Name: Common tests library
+//  Name: Dependency validation security test
 //  GitHub repository: https://github.com/2ndSightLab/rust-common-tests.git
-//  File: src/lib.rs
+//  File: tests/security_checks_rust_common_tests/common/test_dependency_validation.rs
 //  Copyright: © 2025 2nd Sight Lab, LLC
 //
-//  Provides common security and standards tests for Rust projects
+//  Validates that essential dependencies are properly declared in Cargo.toml
 //
 //  This software, which includes components generated with the assistance of artificial
 //  intelligence, is free for personal, educational, and non-profit use, provided that
@@ -19,9 +19,28 @@
 //
 ////////////////////////////////////////////////////////////////
 
-// Common tests library for Rust projects
-// This library provides common security and standards tests
-// that can be run against any Rust project
+#[cfg(test)]
+mod test_dependency_validation_tests {
+    use std::fs;
+    use std::path::Path;
 
-// This is a library crate that provides test utilities
-// The actual tests are in the tests/ directory and are run via cargo test
+    #[test]
+    fn test_all_dependencies_declared() {
+        let CARGO_PATH = Path::new("Cargo.toml");
+        assert!(CARGO_PATH.exists(), "Cargo.toml not found");
+
+        let CARGO_CONTENT = fs::read_to_string(CARGO_PATH).unwrap();
+
+        // Check that essential dependencies are declared
+        assert!(CARGO_CONTENT.contains("libc ="), "Missing libc dependency");
+        assert!(
+            CARGO_CONTENT.contains("thiserror ="),
+            "Missing thiserror dependency"
+        );
+        assert!(CARGO_CONTENT.contains("log ="), "Missing log dependency");
+        assert!(
+            CARGO_CONTENT.contains("serde ="),
+            "Missing serde dependency"
+        );
+    }
+}

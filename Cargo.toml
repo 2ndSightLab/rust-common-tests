@@ -24,13 +24,13 @@ thiserror = "1.0"
 log = "0.4"
 
 [[test]]
-name = "integration_common"
-path = "tests/integration_common.rs"
+name = "integration_rust_common_tests"
+path = "tests/integration_rust_common_tests.rs"
 
 [[test]]
-name = "security_checks_common"
-path = "tests/security_checks_common.rs"
+name = "security_checks_rust_common_tests"
+path = "tests/security_checks_rust_common_tests.rs"
 
 [[test]]
-name = "unit_tests_common"
-path = "tests/unit_tests_common.rs"
+name = "unit_tests_rust_common_tests"
+path = "tests/unit_tests_rust_common_tests.rs"

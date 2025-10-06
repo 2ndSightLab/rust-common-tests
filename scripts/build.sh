@@ -22,8 +22,10 @@
 
 
 # Set standard directory variables and source all functions
-SCRIPTS_DIR="$(dirname "$(readlink -f "$0")")"
-for FUNC in "$SCRIPTS_DIR/functions"/*.sh; do source "$FUNC"; done
+if [ -z "$SCRIPT_DIR" ]; then
+    SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
+fi
+for FUNC in "$SCRIPT_DIR/functions"/*.sh; do source "$FUNC"; done
 PROJECT_DIR=$(get_project_dir)
 
 # Define configuration constants

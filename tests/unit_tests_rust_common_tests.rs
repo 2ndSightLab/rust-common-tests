@@ -1,11 +1,11 @@
 ////////////////////////////////////////////////////////////////
 //
-//  Name: Common tests library
+//  Name: Unit test executor
 //  GitHub repository: https://github.com/2ndSightLab/rust-common-tests.git
-//  File: src/lib.rs
+//  File: tests/unit_test_rust_common_tests.rs
 //  Copyright: © 2025 2nd Sight Lab, LLC
 //
-//  Provides common security and standards tests for Rust projects
+//  Executes all unit tests that validate standards and best practices
 //
 //  This software, which includes components generated with the assistance of artificial
 //  intelligence, is free for personal, educational, and non-profit use, provided that
@@ -19,9 +19,18 @@
 //
 ////////////////////////////////////////////////////////////////
 
-// Common tests library for Rust projects
-// This library provides common security and standards tests
-// that can be run against any Rust project
-
-// This is a library crate that provides test utilities
-// The actual tests are in the tests/ directory and are run via cargo test
+mod unit_tests_rust_common_tests {
+    pub mod common {
+        pub mod test_best_practices_compliance;
+        pub mod test_cargo_allows_screaming_snake_case;
+        pub mod test_common_tests_display;
+        pub mod test_local_tests_display;
+        pub mod test_module_naming;
+        pub mod test_no_magic_numbers;
+        pub mod test_non_snake_case_override_present;
+        pub mod test_screaming_snake_case_config;
+        pub mod test_screaming_snake_case_variables;
+        pub mod test_script_validation;
+        pub mod test_service_config_validation;
+    }
+}

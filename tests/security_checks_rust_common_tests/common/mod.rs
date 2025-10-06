@@ -1,11 +1,11 @@
 ////////////////////////////////////////////////////////////////
 //
-//  Name: Common tests library
+//  Name: Security checks module declarations
 //  GitHub repository: https://github.com/2ndSightLab/rust-common-tests.git
-//  File: src/lib.rs
+//  File: tests/security_checks_rust_common_tests/common/mod.rs
 //  Copyright: © 2025 2nd Sight Lab, LLC
 //
-//  Provides common security and standards tests for Rust projects
+//  Module declarations for security validation tests
 //
 //  This software, which includes components generated with the assistance of artificial
 //  intelligence, is free for personal, educational, and non-profit use, provided that
@@ -19,9 +19,9 @@
 //
 ////////////////////////////////////////////////////////////////
 
-// Common tests library for Rust projects
-// This library provides common security and standards tests
-// that can be run against any Rust project
-
-// This is a library crate that provides test utilities
-// The actual tests are in the tests/ directory and are run via cargo test
+pub mod test_code_separation;
+pub mod test_dependency_audit;
+pub mod test_dependency_validation;
+pub mod test_file_permissions;
+pub mod test_hardcoded_secrets;
+pub mod test_process_exit;

@@ -35,8 +35,10 @@ TOTAL_SECURITY=0
 TOTAL_UNIT=0
 
 # Source all functions
-SCRIPTS_DIR="$(dirname "$(readlink -f "$0")")"
-for FUNC in "$SCRIPTS_DIR/functions"/*.sh; do source "$FUNC"; done
+if [ -z "$SCRIPT_DIR" ]; then
+    SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
+fi
+for FUNC in "$SCRIPT_DIR/functions"/*.sh; do source "$FUNC"; done
 
 # Define configuration constants
 DEBUG_CHOICE=1
@@ -56,7 +58,6 @@ else
     read -p "Enter choice (1 or 2): " CHOICE
 fi
 
-SCRIPT_DIR=$(get_script_directory)
 if [ $CHOICE -eq $DEBUG_CHOICE ]; then
     "$SCRIPT_DIR/build.sh" --debug
     "$SCRIPT_DIR/install.sh" --debug

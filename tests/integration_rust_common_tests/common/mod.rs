@@ -1,11 +1,11 @@
 ////////////////////////////////////////////////////////////////
 //
-//  Name: Common tests library
+//  Name: Integration tests module declarations
 //  GitHub repository: https://github.com/2ndSightLab/rust-common-tests.git
-//  File: src/lib.rs
+//  File: tests/integration_rust_common_tests/common/mod.rs
 //  Copyright: © 2025 2nd Sight Lab, LLC
 //
-//  Provides common security and standards tests for Rust projects
+//  Module declarations for integration tests
 //
 //  This software, which includes components generated with the assistance of artificial
 //  intelligence, is free for personal, educational, and non-profit use, provided that
@@ -19,9 +19,7 @@
 //
 ////////////////////////////////////////////////////////////////
 
-// Common tests library for Rust projects
-// This library provides common security and standards tests
-// that can be run against any Rust project
-
-// This is a library crate that provides test utilities
-// The actual tests are in the tests/ directory and are run via cargo test
+pub mod test_graceful_shutdown_handling;
+pub mod test_prerequisites;
+pub mod test_security_workflow_integration;
+pub mod test_system_resource_monitoring;
