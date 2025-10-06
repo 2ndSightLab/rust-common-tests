@@ -176,6 +176,16 @@ if [[ -f "$CONFIG_DIR/action.toml" ]]; then
     sudo chmod $CONFIG_FILE_PERMISSIONS "$CONFIG_DIR/action.toml"
 fi
 
+# Check for CAP_NET_BIND_SERVICE capability setting
+CAP_NET_BIND_SERVICE=$(read_config_value "CAP_NET_BIND_SERVICE" "$CONFIG_DIR/service.toml" 2>/dev/null || echo "")
+CAP_NET_BIND_SERVICE=$(echo "$CAP_NET_BIND_SERVICE" | xargs)  # Remove leading/trailing spaces
+
+if [[ -n "$CAP_NET_BIND_SERVICE" ]]; then
+    echo "Setting network binding capability..."
+    sudo setcap "cap_net_bind_service=$CAP_NET_BIND_SERVICE" "$INSTALL_DIR/$PROJECT_NAME"
+    echo "Capability set: cap_net_bind_service=$CAP_NET_BIND_SERVICE"
+fi
+
 echo "Installation complete!"
 echo "Binary: $INSTALL_DIR/$PROJECT_NAME"
 echo "Config: $CONFIG_DIR/service.toml"
