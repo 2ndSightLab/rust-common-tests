@@ -4,11 +4,11 @@ fn test_system_resource_monitoring() {
         "RUNNING: test_system_resource_monitoring - Testing system resource monitoring exists"
     );
 
-    // Skip if running as root for security
-    if unsafe { libc::getuid() } == 0 {
-        println!("N/A: Running as root - skipping for security");
-        return;
-    }
+    // Fail if running as root for security
+    assert!(
+        (unsafe { libc::getuid() } != 0),
+        "SECURITY: Tests must not run as root user"
+    );
 
     let CURRENT_DIR = std::env::current_dir().expect("Failed to get current directory");
 

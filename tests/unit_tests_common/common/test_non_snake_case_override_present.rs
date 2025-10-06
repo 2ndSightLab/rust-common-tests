@@ -1,5 +1,5 @@
 #[cfg(test)]
-mod toml_lint_tests {
+mod tests {
     use std::fs;
 
     #[test]

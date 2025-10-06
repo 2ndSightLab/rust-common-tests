@@ -12,38 +12,45 @@ mod script_validation_tests {
 
         // Verify the script contains the required output format
         assert!(
-            SCRIPT_CONTENT.contains("Test Results Summary:"),
-            "test.sh missing Test Results Summary section"
+            SCRIPT_CONTENT.contains("echo \"Test Summary:\""),
+            "test.sh missing Test Summary section"
         );
         assert!(
-            SCRIPT_CONTENT.contains("===================="),
+            SCRIPT_CONTENT.contains("echo \"================================\""),
             "test.sh missing summary separator"
         );
 
-        // Check that script generates category names from test files
+        // Check that script displays total tests
         assert!(
-            SCRIPT_CONTENT.contains(
-                "TEST_NAME=$(echo \"${TEST_FILE}\" | sed 's/_/ /g' | sed 's/\\b\\w/\\U&/g')"
-            ),
-            "test.sh not generating category names from test files"
+            SCRIPT_CONTENT.contains("echo \"Total Tests: $TOTAL_TESTS\""),
+            "test.sh not displaying total tests count"
         );
 
-        // Check for proper output format generation with PASSED status
+        // Check that script displays passed/failed counts
         assert!(
-            SCRIPT_CONTENT.contains("echo -e \"✅ ${TEST_NAME}: ${GREEN}PASSED${NC} ($TEST_PASSED passed, $TEST_FAILED failed)\""),
-            "test.sh not generating correct PASSED format"
+            SCRIPT_CONTENT.contains("echo \"Passed: $TOTAL_PASSED\""),
+            "test.sh not displaying passed count"
         );
 
-        // Check for proper output format generation with FAILED status
         assert!(
-            SCRIPT_CONTENT.contains("echo -e \"❌ ${TEST_NAME}: ${RED}FAILED${NC} ($TEST_PASSED passed, $TEST_FAILED failed)\""),
-            "test.sh not generating correct FAILED format"
+            SCRIPT_CONTENT.contains("echo \"Failed: $TOTAL_FAILED\""),
+            "test.sh not displaying failed count"
         );
 
-        // Check for conditional logic based on test results
+        // Check that script displays category counts
         assert!(
-            SCRIPT_CONTENT.contains("if [[ $TEST_FAILED -eq 0 ]]; then"),
-            "test.sh missing conditional logic for PASSED/FAILED status"
+            SCRIPT_CONTENT.contains("echo \"Total Integration: $TOTAL_INTEGRATION\""),
+            "test.sh not displaying integration count"
+        );
+
+        assert!(
+            SCRIPT_CONTENT.contains("echo \"Total Security: $TOTAL_SECURITY\""),
+            "test.sh not displaying security count"
+        );
+
+        assert!(
+            SCRIPT_CONTENT.contains("echo \"Total Unit Tests: $TOTAL_UNIT\""),
+            "test.sh not displaying unit tests count"
         );
     }
 }

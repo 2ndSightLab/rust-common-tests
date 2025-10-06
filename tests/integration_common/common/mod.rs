@@ -1,4 +1,4 @@
-pub mod monitoring_integration_test;
-pub mod security_workflow_test;
-pub mod shutdown_handling_test;
+pub mod test_graceful_shutdown_handling;
 pub mod test_prerequisites;
+pub mod test_security_workflow_integration;
+pub mod test_system_resource_monitoring;

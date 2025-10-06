@@ -1,5 +1,5 @@
 #[cfg(test)]
-mod variable_naming_tests {
+mod tests {
     use regex::Regex;
     use std::fs;
     use std::path::Path;

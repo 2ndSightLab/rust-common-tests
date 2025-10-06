@@ -11,7 +11,7 @@ pub mod module_naming_validation_tests {
             return;
         }
 
-        let mut violations = Vec::new();
+        let mut VIOLATIONS = Vec::new();
 
         if let Ok(entries) = fs::read_dir(UNIT_TESTS_DIR) {
             for entry in entries.flatten() {
@@ -22,7 +22,7 @@ pub mod module_naming_validation_tests {
                 {
                     let PATTERN = format!("mod {} {{", "tests");
                     if content.contains(&PATTERN) {
-                        violations.push(format!(
+                        VIOLATIONS.push(format!(
                             "{}: Uses generic 'mod tests' instead of unique module name",
                             PATH.display()
                         ));
@@ -32,9 +32,9 @@ pub mod module_naming_validation_tests {
         }
 
         assert!(
-            violations.is_empty(),
+            VIOLATIONS.is_empty(),
             "Found generic 'mod tests' declarations in unit:\n{}",
-            violations.join("\n")
+            VIOLATIONS.join("\n")
         );
     }
 }

@@ -2,11 +2,11 @@
 fn test_security_workflow_integration() {
     println!("RUNNING: test_security_workflow_integration - Testing security workflow");
 
-    // Skip if running as root for security
-    if unsafe { libc::getuid() } == 0 {
-        println!("N/A: Running as root - skipping for security");
-        return;
-    }
+    // Fail if running as root for security
+    assert!(
+        (unsafe { libc::getuid() } != 0),
+        "SECURITY: Tests must not run as root user"
+    );
 
     let CURRENT_DIR = std::env::current_dir().expect("Failed to get current directory");
 

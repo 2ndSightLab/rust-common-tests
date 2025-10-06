@@ -10,38 +10,34 @@ mod local_tests_display_tests {
         let SCRIPT_CONTENT =
             fs::read_to_string("./scripts/test.sh").expect("test.sh file not found");
 
-        // Check that script displays local tests with header
+        // Check that script displays "Done testing" for each category
         assert!(
-            SCRIPT_CONTENT.contains("echo \"Running local tests...\""),
-            "test.sh missing local tests display header"
+            SCRIPT_CONTENT.contains("echo \"Done testing: $CATEGORY_NAME\""),
+            "test.sh missing done testing display"
         );
 
-        // Check that script runs integration tests for local tests
+        // Check that script counts common vs local tests
         assert!(
-            SCRIPT_CONTENT.contains("cargo test --test integration 2>&1 | while read -r line; do"),
-            "test.sh not running integration tests for local tests display"
+            SCRIPT_CONTENT.contains("TOTAL_COMMON=$((TOTAL_COMMON + 1))"),
+            "test.sh not counting common tests"
         );
 
-        // Check that script colorizes local test output
+        // Check that script counts local tests
         assert!(
-            SCRIPT_CONTENT.contains("echo -e \"${line% ok} ${GREEN}ok${NC}\"")
-                && SCRIPT_CONTENT.contains("echo -e \"${line% FAILED} ${RED}FAILED${NC}\""),
-            "test.sh not colorizing local test output"
+            SCRIPT_CONTENT.contains("TOTAL_LOCAL=$((TOTAL_LOCAL + 1))"),
+            "test.sh not counting local tests"
         );
 
-        // Check that local tests section comes after common tests section
-        let COMMON_TESTS_POS =
-            SCRIPT_CONTENT.find("Running common tests from rust-common-tests...");
-        let LOCAL_TESTS_POS = SCRIPT_CONTENT.find("Running local tests...");
-
+        // Check that script displays total counts
         assert!(
-            COMMON_TESTS_POS.is_some() && LOCAL_TESTS_POS.is_some(),
-            "test.sh missing common or local tests sections"
+            SCRIPT_CONTENT.contains("echo \"Total Common: $TOTAL_COMMON\""),
+            "test.sh not displaying total common count"
         );
 
+        // Check that script displays total local count
         assert!(
-            LOCAL_TESTS_POS > COMMON_TESTS_POS,
-            "test.sh local tests section should come after common tests section"
+            SCRIPT_CONTENT.contains("echo \"Total Local: $TOTAL_LOCAL\""),
+            "test.sh not displaying total local count"
         );
     }
 }

@@ -10,52 +10,40 @@ mod common_tests_display_tests {
         let SCRIPT_CONTENT =
             fs::read_to_string("./scripts/test.sh").expect("test.sh file not found");
 
-        // Check that script displays common tests with header
+        // Check that script displays category names
         assert!(
-            SCRIPT_CONTENT.contains("echo \"Running common tests from rust-common-tests...\""),
-            "test.sh missing common tests display header"
+            SCRIPT_CONTENT.contains("echo \"Category_name: $CATEGORY_NAME\""),
+            "test.sh missing category name display"
         );
 
-        // Check that script changes directory to rust-common-tests
+        // Check that script displays test type
         assert!(
-            SCRIPT_CONTENT.contains("cd ../rust-common-tests &&"),
-            "test.sh not changing to rust-common-tests directory"
+            SCRIPT_CONTENT.contains("echo \"Test type: $test_type\""),
+            "test.sh missing test type display"
         );
 
-        // Check that script runs specific test binaries for common tests
+        // Check that script runs cargo test for each category
         assert!(
-            SCRIPT_CONTENT.contains(
-                "cargo test --test integration --test security_checks --test unit 2>&1"
-            ),
-            "test.sh not running correct test binaries for common tests"
+            SCRIPT_CONTENT.contains("cargo test --test \"$CATEGORY_NAME\" \"$TEST_NAME\""),
+            "test.sh not running cargo test for categories"
         );
 
-        // Check that script colorizes common test output
+        // Check that script tracks test results
         assert!(
-            SCRIPT_CONTENT.contains("echo -e \"${line% ok} ${GREEN}ok${NC}\"")
-                && SCRIPT_CONTENT.contains("echo -e \"${line% FAILED} ${RED}FAILED${NC}\""),
-            "test.sh not colorizing common test output"
+            SCRIPT_CONTENT.contains("TOTAL_PASSED=$((TOTAL_PASSED + 1))"),
+            "test.sh not tracking passed tests"
         );
 
-        // Check that script returns to original directory
+        // Check that script tracks failed tests
         assert!(
-            SCRIPT_CONTENT.contains("cd - > /dev/null"),
-            "test.sh not returning to original directory after common tests"
+            SCRIPT_CONTENT.contains("TOTAL_FAILED=$((TOTAL_FAILED + 1))"),
+            "test.sh not tracking failed tests"
         );
 
-        // Check that common tests section comes before local tests section
-        let COMMON_TESTS_POS =
-            SCRIPT_CONTENT.find("Running common tests from rust-common-tests...");
-        let LOCAL_TESTS_POS = SCRIPT_CONTENT.find("Running local tests...");
-
+        // Check that script displays test summary
         assert!(
-            COMMON_TESTS_POS.is_some() && LOCAL_TESTS_POS.is_some(),
-            "test.sh missing common or local tests sections"
-        );
-
-        assert!(
-            COMMON_TESTS_POS < LOCAL_TESTS_POS,
-            "test.sh common tests section should come before local tests section"
+            SCRIPT_CONTENT.contains("echo \"Test Summary:\""),
+            "test.sh missing test summary display"
         );
     }
 }
